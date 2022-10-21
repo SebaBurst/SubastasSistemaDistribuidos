@@ -1,0 +1,216 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML2.java to edit this template
+ */
+package proyecto2;
+
+import Logica.Oferta;
+import Logica.Producto;
+import Logica.Serializar;
+import Logica.Usuario;
+import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import static proyecto2.FXMLLoginController.loggerUser;
+import static proyecto2.FXMLLoginController.pochita;
+
+/**
+ *
+ * @author Sebastian
+ */
+public class FXMLDocumentController extends Thread implements Initializable {
+
+    @FXML
+    private Label label;
+    @FXML
+    private Button button;
+    BufferedReader reader;
+    PrintWriter writer;
+    Socket socket;
+    OutputStream outputStream;
+    ObjectOutputStream objectOutputStream;
+    InputStream lector;
+    ObjectInputStream objectInputStream;
+   
+    @FXML
+    private TextField oferta;
+    @FXML
+    private Text Precio;
+    @FXML
+    private TableColumn<Usuario, String> usernameTable;
+    @FXML
+    private TableColumn<Oferta, Integer> ofertaTable;
+    @FXML
+    private TableView<Oferta> TablaOfertas;
+    private ObservableList<Oferta> ofertasSubasta = FXCollections.observableArrayList();
+
+    //Metodo donde enviamos el objeto
+    @FXML
+    private void handleButtonAction(ActionEvent event) throws IOException {
+        String of = oferta.getText();
+        
+        System.out.println("");
+        System.out.println("##################################################");
+        System.out.println("Informacion en el boton");
+        pochita.info();
+        System.out.println("##################################################");
+        System.out.println("");
+
+        boolean esNumero = (of != null && of.matches("[0-9]+"));
+        if (esNumero) {
+            int dinero = Integer.parseInt(of);
+            Oferta o = new Oferta(loggerUser, dinero);
+            pochita.agregarOferta(o);
+            objectOutputStream.writeObject(pochita);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle("Error");
+            alert.setContentText("Su Oferta no es un valor numerico");
+            alert.showAndWait();
+
+        }
+
+        //writer.println(loggerUser.getUsername() + " ha ofertado "+of + " Por Pochita");
+    }
+
+    //metodo que conecta el socket al servidor
+    public void connectSocket() {
+        try {
+            socket = new Socket("localhost", 8889);
+            System.out.println("");
+
+            outputStream = socket.getOutputStream();
+            objectOutputStream = new ObjectOutputStream(outputStream);
+            lector = socket.getInputStream();
+            objectInputStream = new ObjectInputStream(lector);
+            //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            
+            //writer = new PrintWriter(socket.getOutputStream(), true);
+            this.start();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public boolean isFileEmpty(File file){
+        return file.length() ==0;
+    }
+    
+    
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        label.setText("Bienvenido " + loggerUser.getUsername());
+        connectSocket();
+        
+        File archivo = new File("peluche.txt");
+        if(archivo.exists()){
+            System.out.println("Oe!!! Pcohita existo");
+        
+        }
+        if(!isFileEmpty(archivo)){
+            pochita = (Producto) Serializar.cargar(pochita, "peluche");
+        }
+        else{
+            System.out.println("No se ha serializado nada");
+        
+        }
+        
+        
+        //TablaOfertas.getItems().clear();
+        //ofertasSubasta.clear();
+
+        usernameTable.setCellValueFactory(new PropertyValueFactory<>("ofertador"));
+        ofertaTable.setCellValueFactory(new PropertyValueFactory<>("cantidadOfertada"));
+        for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
+            ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
+        }
+        Collections.sort(ofertasSubasta, ofertaMayor);
+        //Collections.sort(ofertasSubasta, Collections.reverseOrder());
+
+        TablaOfertas.setItems(ofertasSubasta);
+    }
+
+    //Mandar las lista de las ofertas y no el producto, pero la ofertas tendran identificador para poder filtrarlas.
+    //Metodo que lee el string mandadado desde el servidor... :(
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                pochita.info();
+                pochita = (Producto) objectInputStream.readObject();
+                Serializar.serializar(pochita, "peluche");
+                ofertasSubasta.clear();
+                for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
+
+                    ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
+                }
+                Collections.sort(ofertasSubasta, ofertaMayor);
+                //Collections.sort(ofertasSubasta, Collections.reverseOrder());
+                if (!ofertasSubasta.isEmpty()) {
+                    Oferta mayor = ofertasSubasta.get(ofertasSubasta.size() - 1);
+                    Precio.setText(String.valueOf(mayor.getCantidadOfertada()));
+                }
+                //TablaOfertas.getItems().clear();
+                //TablaOfertas.setItems(ofertasSubasta);
+                TablaOfertas.refresh();
+            }
+        } catch (EOFException ex) {
+            //All objects are read when control is here
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //Metodo que ordena las ofertas por el producto, para poder identificar la oferta mayor.
+    public Comparator<Oferta> ofertaMayor = new Comparator<Oferta>() {
+        @Override
+        public int compare(Oferta t, Oferta t1) {
+            int oferta1 = t.getCantidadOfertada();
+            int oferta2 = t1.getCantidadOfertada();
+            return oferta1 - oferta2;
+        }
+    };
+
+}
