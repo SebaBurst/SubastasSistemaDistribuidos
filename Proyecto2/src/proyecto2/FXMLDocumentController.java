@@ -53,7 +53,7 @@ import static proyecto2.FXMLLoginController.loggerUser;
  * @author Sebastian
  */
 public class FXMLDocumentController extends Thread implements Initializable {
-    
+
     @FXML
     private Label label;
     @FXML
@@ -65,9 +65,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
     ObjectOutputStream objectOutputStream;
     InputStream lector;
     ObjectInputStream objectInputStream;
-    
+
     public static Producto pochita;
-    
+
     @FXML
     private TextField oferta;
     @FXML
@@ -93,19 +93,21 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private Text jueztext;
     @FXML
     private ImageView productImage;
+    @FXML
+    private Button returnFeed;
 
     //Metodo donde enviamos el objeto
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
         String of = oferta.getText();
-        
+
         System.out.println("");
         System.out.println("##################################################");
         System.out.println("Informacion en el boton");
         pochita.info();
         System.out.println("##################################################");
         System.out.println("");
-        
+
         boolean esNumero = (of != null && of.matches("[0-9]+"));
         if (esNumero) {
             int dinero = Integer.parseInt(of);
@@ -118,7 +120,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             alert.setTitle("Error");
             alert.setContentText("Su Oferta no es un valor numerico");
             alert.showAndWait();
-            
+
         }
 
         //writer.println(loggerUser.getUsername() + " ha ofertado "+of + " Por Pochita");
@@ -129,7 +131,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
         try {
             socket = new Socket("localhost", 8889);
             System.out.println("");
-            
+
             outputStream = socket.getOutputStream();
             objectOutputStream = new ObjectOutputStream(outputStream);
             lector = socket.getInputStream();
@@ -138,16 +140,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
             //writer = new PrintWriter(socket.getOutputStream(), true);
             this.start();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
     public boolean isFileEmpty(File file) {
         return file.length() == 0;
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //label.setText("Bienvenido " + loggerUser.getUsername());
@@ -155,21 +157,21 @@ public class FXMLDocumentController extends Thread implements Initializable {
         oferta.setVisible(false);
         button.setVisible(false);
         nombreObj.setText(pochita.getNombre());
-        
+
         Image image1 = new Image("/assets/" + pochita.getNombre() + ".png");
-        
+
         productImage.setImage(image1);
-        
+
         File archivo = new File(pochita.getNombre() + ".txt");
         if (archivo.exists()) {
             System.out.println("Oe!!! Pcohita existo");
-            
+
         }
         if (!isFileEmpty(archivo)) {
             pochita = (Producto) Serializar.cargar(pochita, pochita.getNombre());
         } else {
             System.out.println("No se ha serializado nada");
-            
+
         }
 
         //TablaOfertas.getItems().clear();
@@ -196,17 +198,22 @@ public class FXMLDocumentController extends Thread implements Initializable {
         try {
             while (true) {
                 pochita.info();
-                pochita = (Producto) objectInputStream.readObject();
+                Producto p = (Producto) objectInputStream.readObject();
+                if(p.getNombre().equals(pochita.getNombre())){
+                    System.out.println("Estoy en ++++" + pochita.getNombre());
+                    pochita = p;
+                
+                }
                 Serializar.serializar(pochita, pochita.getNombre());
                 ofertasSubasta.clear();
                 for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
-                    
+
                     ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
                 }
-                
+
                 if (!pochita.getMensaje().equals("")) {
                     mensajeServer.setText(pochita.getMensaje());
-                    
+
                 }
                 Collections.sort(ofertasSubasta, ofertaMayor);
                 //Collections.sort(ofertasSubasta, Collections.reverseOrder());
@@ -224,7 +231,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         } finally {
             try {
                 socket.close();
@@ -243,7 +250,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
             return oferta1 - oferta2;
         }
     };
-    
+
     @FXML
     private void unirsePuja(ActionEvent event) {
         oferta.setVisible(true);
@@ -254,12 +261,19 @@ public class FXMLDocumentController extends Thread implements Initializable {
         juezBG.setVisible(false);
         TablaOfertas.setVisible(true);
     }
-    
+
     private void volver(ActionEvent event) throws IOException {
         Parent vista;
         vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLFeed.fxml"));
         cambiarVista(event, vista);
-        
+
     }
-    
+
+    @FXML
+    private void volverAlInicio(ActionEvent event) throws IOException {
+        Parent vista;
+        vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLFeed.fxml"));
+        cambiarVista(event, vista);
+    }
+
 }
