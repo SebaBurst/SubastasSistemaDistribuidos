@@ -102,14 +102,6 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
         String of = oferta.getText();
-
-        System.out.println("");
-        System.out.println("##################################################");
-        System.out.println("Informacion en el boton");
-        pochita.info();
-        System.out.println("##################################################");
-        System.out.println("");
-
         boolean esNumero = (of != null && of.matches("[0-9]+"));
         if (esNumero) {
             int dinero = Integer.parseInt(of);
@@ -208,17 +200,20 @@ public class FXMLDocumentController extends Thread implements Initializable {
     public void run() {
         try {
             while (true) {
-                pochita.info();
+                //pochita.info();
                 Producto p = (Producto) objectInputStream.readObject();
                 if (p.getNombre().equals(pochita.getNombre())) {
-                    System.out.println("Estoy en ++++" + pochita.getNombre());
+                    //System.out.println("Estoy en ++++" + pochita.getNombre());
                     pochita = p;
 
                 }
+                
+                
                 if (pochita.getGanador() != null) {
                     button.setVisible(false);
                     oferta.setVisible(false);
                     String winner = pochita.getGanador().getUsername();
+                    System.out.println("Winner: "+ winner );
                     ganador.setText("Ganador: "+winner);
                     //ganador.setText("Ganador: "+(pochita.getGanador().getUsername()));
 

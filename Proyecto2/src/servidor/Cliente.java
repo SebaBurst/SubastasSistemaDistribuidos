@@ -82,12 +82,8 @@ public class Cliente extends Thread {
                     );
                 } else if (pochita.getOfertasRealizadas().size() >= 11) {
                     pochita.setMensaje("Tenemos Ganador!!! ");
-                    Oferta ofertaFinal =  ofertas.get(ofertas.size()-1);
-                    for (Usuario usuario : FXMLLoginController.usuarios) {
-                        if(usuario.getUsername().equals(ofertaFinal.getOfertador().getUsername())){
-                            pochita.setGanador(usuario);
-                        }
-                    }
+                    Oferta ofertaFinal = ofertas.get(ofertas.size() - 1);
+                    pochita.setGanador(ofertaFinal.getOfertador());
                 }
                 //Producto csm = (Producto) objectInputStream.readObject();
                 //csm.info();
