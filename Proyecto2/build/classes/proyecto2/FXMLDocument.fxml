@@ -14,43 +14,78 @@
 
 <AnchorPane id="AnchorPane" prefHeight="642.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2.FXMLDocumentController">
     <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="719.0" layoutX="-59.0" layoutY="-76.0" stroke="BLACK" strokeType="INSIDE" width="1119.0" />
+      <Rectangle fill="#e8e8e8" height="696.0" layoutX="-36.0" layoutY="-52.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="1096.0" />
         <Label fx:id="label" layoutX="66.0" layoutY="391.0" minHeight="16" minWidth="69" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8a563" height="144.0" layoutX="18.0" layoutY="480.0" stroke="TRANSPARENT" strokeType="INSIDE" width="753.0" />
-      <TextField fx:id="oferta" layoutX="258.0" layoutY="530.0" prefHeight="46.0" prefWidth="272.0" promptText="Ingrese su oferta" />
-      <ImageView fitHeight="394.0" fitWidth="360.0" layoutX="189.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/Pochita.jpg" />
-         </image>
-      </ImageView>
-      <Text layoutX="51.0" layoutY="519.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OFERTA ACTUAL: " wrappingWidth="183.13671875">
+      <Text fill="#132a40" layoutX="717.0" layoutY="563.0" strokeType="OUTSIDE" strokeWidth="0.0" text="OFERTA ACTUAL: " wrappingWidth="183.13671875">
          <font>
-            <Font size="17.0" />
+            <Font name="System Bold" size="17.0" />
          </font>
       </Text>
-      <Text fx:id="Precio" layoutX="101.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-        <Button fx:id="button" layoutX="557.0" layoutY="525.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="119.0" text="Ofertar" />
-      <TableView fx:id="TablaOfertas" layoutX="781.0" layoutY="20.0" prefHeight="602.0" prefWidth="265.0">
+      <TableView fx:id="TablaOfertas" layoutX="760.0" layoutY="119.0" prefHeight="405.0" prefWidth="251.0" visible="false">
         <columns>
           <TableColumn fx:id="usernameTable" prefWidth="136.0" text="Usuario" />
           <TableColumn fx:id="ofertaTable" prefWidth="128.0" text="Oferta" />
         </columns>
       </TableView>
-      <Button fx:id="unirse" layoutX="557.0" layoutY="343.0" mnemonicParsing="false" onAction="#unirsePuja" prefHeight="65.0" prefWidth="219.0" text="unirse" />
-      <Button layoutX="18.0" layoutY="24.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="119.0" text="Volver" />
-      <Text fx:id="nombreObj" layoutX="557.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del objeto" wrappingWidth="183.13671875">
+      <Rectangle fill="#174979" height="68.0" layoutY="579.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1060.0" />
+      <ImageView fitHeight="99.0" fitWidth="106.0" layoutX="17.0" layoutY="545.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/juez/juez03.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2ebf83" height="59.0" layoutX="125.0" layoutY="567.0" stroke="TRANSPARENT" strokeType="INSIDE" width="414.0" />
+      <Text fx:id="mensajeServer" fill="WHITE" layoutX="138.0" layoutY="600.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="388.0">
          <font>
-            <Font size="17.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="mensajeServer" layoutX="617.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="265.0">
+        <Button fx:id="button" layoutX="978.0" layoutY="591.0" onAction="#handleButtonAction" prefHeight="32.0" prefWidth="63.0" text="Ofertar" />
+      <TextField fx:id="oferta" layoutX="796.0" layoutY="591.0" prefHeight="32.0" prefWidth="175.0" promptText="Ingrese su oferta" />
+      <Rectangle fill="#174979" height="68.0" layoutY="-19.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1060.0" />
+      <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="75.0" text="Volver" />
+      <Rectangle fx:id="juezBG" arcHeight="5.0" arcWidth="25.0" fill="#d0dbf2" height="405.0" layoutX="761.0" layoutY="121.0" stroke="TRANSPARENT" strokeType="INSIDE" width="251.0" />
+      <ImageView fx:id="juez" fitHeight="204.0" fitWidth="201.0" layoutX="786.0" layoutY="164.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/juez/juez03.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="unirse" layoutX="810.0" layoutY="459.0" mnemonicParsing="false" onAction="#unirsePuja" prefHeight="32.0" prefWidth="169.0" text="unirse" />
+      <Text fx:id="jueztext" fill="#09335b" layoutX="810.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Para poder ver las ofertas de los demas usuarios, primero debe unirse a la subasta." textAlignment="JUSTIFY" wrappingWidth="169.0">
          <font>
-            <Font size="46.0" />
+            <Font size="14.0" />
          </font>
       </Text>
+      <ImageView fitHeight="43.0" fitWidth="44.0" layoutX="753.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/mazo.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="#3b75ab" height="59.0" layoutX="88.0" layoutY="72.0" stroke="TRANSPARENT" strokeType="INSIDE" width="331.0" />
+      <Text fx:id="nombreObj" fill="WHITE" layoutX="163.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del objeto" wrappingWidth="362.13671875">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="WHITE" height="353.0" layoutX="88.0" layoutY="153.0" stroke="TRANSPARENT" strokeType="INSIDE" width="553.0" />
+      <ImageView fx:id="productImage" fitHeight="307.0" fitWidth="287.0" layoutX="217.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/Pochita.png" />
+         </image>
+      </ImageView>
+      <Text fill="#132a40" layoutX="809.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ofertas Actuales">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="Precio" layoutX="870.0" layoutY="563.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="50.0" fitWidth="53.0" layoutX="20.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/mazo.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

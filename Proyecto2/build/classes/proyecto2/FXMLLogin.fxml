@@ -8,6 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -18,12 +19,13 @@
     </stylesheets>
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#38aeff" height="649.0" layoutY="-6.0" stroke="TRANSPARENT" strokeType="INSIDE" width="497.0" />
-      <ImageView fitHeight="649.0" fitWidth="1353.0" layoutX="-389.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="663.0" fitWidth="666.0" layoutX="-76.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/takemoney.gif" />
+            <Image url="@../assets/GranularTastyFulmar-max-1mb.gif" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#435ccd" height="646.0" layoutX="497.0" layoutY="-3.0" stroke="TRANSPARENT" strokeType="INSIDE" width="568.0" />
+      <Circle fill="#00adff" layoutX="945.0" layoutY="535.0" radius="81.0" stroke="TRANSPARENT" strokeType="INSIDE" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="455.0" layoutX="604.0" layoutY="94.0" stroke="TRANSPARENT" strokeType="INSIDE" width="371.0" />
       <TextField fx:id="nameTextField" layoutX="625.0" layoutY="249.0" prefHeight="48.0" prefWidth="330.0" promptText="Ingrese su nombre de usuario." />
       <PasswordField fx:id="passwordTextField" layoutX="625.0" layoutY="354.0" prefHeight="48.0" prefWidth="330.0" promptText="Ingrese su contraseña" />
@@ -40,5 +42,10 @@
          </font>
       </Text>
       <CheckBox fx:id="checklogin" layoutX="646.0" layoutY="419.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="289.0" text="¿Acepta guardar silencio por las cosas que vera?" />
+      <Circle fill="#435ccd" layoutX="525.0" layoutY="134.0" radius="77.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fill="#00adff" layoutX="506.0" layoutY="549.0" radius="81.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fill="#00adff" layoutX="982.0" layoutY="1.0" radius="81.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fill="#435ccd" layoutX="-6.0" layoutY="561.0" radius="77.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <Circle fill="#435ccd" layoutX="44.0" layoutY="47.0" radius="77.0" stroke="TRANSPARENT" strokeType="INSIDE" />
    </children>
 </AnchorPane>
