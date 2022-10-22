@@ -4,6 +4,7 @@
  */
 package servidor;
 
+import Logica.Oferta;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,6 +17,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import Logica.Producto;
+import Logica.Usuario;
+import java.util.Collections;
+import java.util.Comparator;
+import proyecto2.FXMLLoginController;
 
 /**
  *
@@ -54,26 +59,60 @@ public class Cliente extends Thread {
         try {
             Producto pochita;
             while ((pochita = (Producto) objectInputStream.readObject()) != null) {
-                
-                    if(pochita.getOfertasRealizadas().size()==5){
-                        pochita.setMensaje("Ladys and gentlemans  - "+pochita.getNombre()+""
-                                + "\n"+ " Esta a punto de ser rematado en "+ pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                ArrayList<Oferta> ofertas = pochita.getOfertasRealizadas();
+                Collections.sort(ofertas, ofertaMayor);
+
+                if (pochita.getOfertasRealizadas().size() == 5) {
+                    pochita.setMensaje("Ladys and gentlemans  - " + pochita.getNombre() + ""
+                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                } else if (pochita.getOfertasRealizadas().size() == 6) {
+                    pochita.setMensaje("Apurence ineptos que el producto:   - " + pochita.getNombre() + ""
+                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                } else if (pochita.getOfertasRealizadas().size() == 7) {
+                    pochita.setMensaje("Cuenta la leyenda que el producto:   - " + pochita.getNombre() + ""
+                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                } else if (pochita.getOfertasRealizadas().size() == 8) {
+                    pochita.setMensaje("Solo esperaremos 3 ofertas mas antes que el producto:   - " + pochita.getNombre() + ""
+                            + "\n" + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                } else if (pochita.getOfertasRealizadas().size() == 9) {
+                    pochita.setMensaje("Subanle a la oferta !!! Solo esperaremos 2 ofertas mas antes que el producto:   - " + pochita.getNombre() + ""
+                            + "\n" + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                } else if (pochita.getOfertasRealizadas().size() == 10) {
+                    pochita.setMensaje("ULTIMO LLAMADO... ADICTOS A LAS APUESTAS !!! La siguiente oferta se lleva el producto:    - " + pochita.getNombre() + ""
+                    );
+                } else if (pochita.getOfertasRealizadas().size() >= 11) {
+                    pochita.setMensaje("Tenemos Ganador!!! ");
+                    Oferta ofertaFinal =  ofertas.get(ofertas.size()-1);
+                    for (Usuario usuario : FXMLLoginController.usuarios) {
+                        if(usuario.getUsername().equals(ofertaFinal.getOfertador().getUsername())){
+                            pochita.setGanador(usuario);
+                        }
                     }
-                    //Producto csm = (Producto) objectInputStream.readObject();
-                    //csm.info();
-                    for (int i = 0; i < clientes.size(); i++) {
-                        clientes.get(i).objectOutputStream.writeObject(pochita);
-                    }
-               
+                }
+                //Producto csm = (Producto) objectInputStream.readObject();
+                //csm.info();
+                for (int i = 0; i < clientes.size(); i++) {
+                    clientes.get(i).objectOutputStream.writeObject(pochita);
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
     }
+
+    //Metodo que ordena las ofertas por el producto, para poder identificar la oferta mayor.
+    public Comparator<Oferta> ofertaMayor = new Comparator<Oferta>() {
+        @Override
+        public int compare(Oferta t, Oferta t1) {
+            int oferta1 = t.getCantidadOfertada();
+            int oferta2 = t1.getCantidadOfertada();
+            return oferta1 - oferta2;
+        }
+    };
 
     @Override
     public void run() {

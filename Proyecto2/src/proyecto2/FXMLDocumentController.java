@@ -95,6 +95,8 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ImageView productImage;
     @FXML
     private Button returnFeed;
+    @FXML
+    private Text ganador;
 
     //Metodo donde enviamos el objeto
     @FXML
@@ -123,6 +125,15 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         }
 
+        if (pochita.getOfertasRealizadas().size() >= 11) {
+            button.setVisible(false);
+            oferta.setVisible(false);
+        }
+        if (pochita.getGanador() != null) {
+            button.setVisible(false);
+            oferta.setVisible(false);
+
+        }
         //writer.println(loggerUser.getUsername() + " ha ofertado "+of + " Por Pochita");
     }
 
@@ -199,10 +210,18 @@ public class FXMLDocumentController extends Thread implements Initializable {
             while (true) {
                 pochita.info();
                 Producto p = (Producto) objectInputStream.readObject();
-                if(p.getNombre().equals(pochita.getNombre())){
+                if (p.getNombre().equals(pochita.getNombre())) {
                     System.out.println("Estoy en ++++" + pochita.getNombre());
                     pochita = p;
-                
+
+                }
+                if (pochita.getGanador() != null) {
+                    button.setVisible(false);
+                    oferta.setVisible(false);
+                    String winner = pochita.getGanador().getUsername();
+                    ganador.setText("Ganador: "+winner);
+                    //ganador.setText("Ganador: "+(pochita.getGanador().getUsername()));
+
                 }
                 Serializar.serializar(pochita, pochita.getNombre());
                 ofertasSubasta.clear();

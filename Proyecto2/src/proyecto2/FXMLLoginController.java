@@ -41,7 +41,7 @@ public class FXMLLoginController implements Initializable {
     private CheckBox checklogin;
     public static Producto pochita;
     ///
-    public ArrayList<Usuario> usuarios = new ArrayList();
+    public static ArrayList<Usuario> usuarios = new ArrayList();
     public ArrayList<Usuario> usuariosEnLinea = new ArrayList();
     public static Usuario loggerUser = null;
 

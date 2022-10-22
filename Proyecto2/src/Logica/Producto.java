@@ -18,12 +18,23 @@ public class Producto implements Serializable{
     private int valorActual;
     private ArrayList<Oferta>ofertasRealizadas = new ArrayList();
     private String mensaje = "";
+    private Usuario ganador;
     
     public Producto(String nombre, int valorInicial) {
         this.nombre = nombre;
         this.mensaje = "";
         this.valorInicial = valorInicial;
     }
+
+    public Usuario getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(Usuario ganador) {
+        this.ganador = ganador;
+    }
+    
+    
 
     public String getMensaje() {
         return mensaje;
