@@ -29,7 +29,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -38,9 +40,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import static proyecto2.FXMLLoginController.cambiarVista;
 import static proyecto2.FXMLLoginController.loggerUser;
-import static proyecto2.FXMLLoginController.pochita;
 
 /**
  *
@@ -59,7 +62,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
     ObjectOutputStream objectOutputStream;
     InputStream lector;
     ObjectInputStream objectInputStream;
-   
+
+    public static Producto pochita;
+    
     @FXML
     private TextField oferta;
     @FXML
@@ -71,12 +76,18 @@ public class FXMLDocumentController extends Thread implements Initializable {
     @FXML
     private TableView<Oferta> TablaOfertas;
     private ObservableList<Oferta> ofertasSubasta = FXCollections.observableArrayList();
+    @FXML
+    private Button unirse;
+    @FXML
+    private Text nombreObj;
+    @FXML
+    private Text mensajeServer;
 
     //Metodo donde enviamos el objeto
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException {
         String of = oferta.getText();
-        
+
         System.out.println("");
         System.out.println("##################################################");
         System.out.println("Informacion en el boton");
@@ -114,53 +125,54 @@ public class FXMLDocumentController extends Thread implements Initializable {
             objectInputStream = new ObjectInputStream(lector);
             //reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            
             //writer = new PrintWriter(socket.getOutputStream(), true);
             this.start();
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    
-    public boolean isFileEmpty(File file){
-        return file.length() ==0;
+    public boolean isFileEmpty(File file) {
+        return file.length() == 0;
     }
-    
-    
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         label.setText("Bienvenido " + loggerUser.getUsername());
         connectSocket();
+        oferta.setVisible(false);
+        button.setVisible(false);
+        nombreObj.setText(pochita.getNombre());
         
-        File archivo = new File("peluche.txt");
-        if(archivo.exists()){
+        
+        File archivo = new File(pochita.getNombre()+".txt");
+        if (archivo.exists()) {
             System.out.println("Oe!!! Pcohita existo");
-        
+
         }
-        if(!isFileEmpty(archivo)){
-            pochita = (Producto) Serializar.cargar(pochita, "peluche");
-        }
-        else{
+        if (!isFileEmpty(archivo)) {
+            pochita = (Producto) Serializar.cargar(pochita, pochita.getNombre());
+        } else {
             System.out.println("No se ha serializado nada");
-        
+
         }
-        
-        
+
         //TablaOfertas.getItems().clear();
         //ofertasSubasta.clear();
-
         usernameTable.setCellValueFactory(new PropertyValueFactory<>("ofertador"));
         ofertaTable.setCellValueFactory(new PropertyValueFactory<>("cantidadOfertada"));
         for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
             ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
         }
         Collections.sort(ofertasSubasta, ofertaMayor);
+        if(ofertasSubasta.size()>0){
+        Precio.setText(String.valueOf(ofertasSubasta.get(ofertasSubasta.size()-1).getCantidadOfertada()));
+        }
         //Collections.sort(ofertasSubasta, Collections.reverseOrder());
 
         TablaOfertas.setItems(ofertasSubasta);
+        TablaOfertas.setVisible(false);
     }
 
     //Mandar las lista de las ofertas y no el producto, pero la ofertas tendran identificador para poder filtrarlas.
@@ -171,11 +183,16 @@ public class FXMLDocumentController extends Thread implements Initializable {
             while (true) {
                 pochita.info();
                 pochita = (Producto) objectInputStream.readObject();
-                Serializar.serializar(pochita, "peluche");
+                Serializar.serializar(pochita, pochita.getNombre());
                 ofertasSubasta.clear();
                 for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
 
                     ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
+                }
+                
+                if(!pochita.getMensaje().equals("")){
+                    mensajeServer.setText(pochita.getMensaje());
+                
                 }
                 Collections.sort(ofertasSubasta, ofertaMayor);
                 //Collections.sort(ofertasSubasta, Collections.reverseOrder());
@@ -212,5 +229,23 @@ public class FXMLDocumentController extends Thread implements Initializable {
             return oferta1 - oferta2;
         }
     };
+
+    @FXML
+    private void unirsePuja(ActionEvent event) {
+        oferta.setVisible(true);
+        button.setVisible(true);
+        unirse.setVisible(false);
+        TablaOfertas.setVisible(true);
+    }
+
+    private void volver(ActionEvent event) throws IOException {
+          Parent vista;
+                    vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLFeed.fxml"));
+                    cambiarVista(event, vista);
+        
+        
+        
+        
+    }
 
 }

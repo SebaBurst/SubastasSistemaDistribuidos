@@ -54,6 +54,11 @@ public class Cliente extends Thread {
         try {
             Producto pochita;
             while ((pochita = (Producto) objectInputStream.readObject()) != null) {
+                
+                    if(pochita.getOfertasRealizadas().size()==5){
+                        pochita.setMensaje("Ladys and gentlemans  - "+pochita.getNombre()+""
+                                + "\n"+ " Esta a punto de ser rematado en "+ pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                    }
                     //Producto csm = (Producto) objectInputStream.readObject();
                     //csm.info();
                     for (int i = 0; i < clientes.size(); i++) {

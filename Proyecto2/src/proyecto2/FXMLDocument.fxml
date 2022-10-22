@@ -40,5 +40,17 @@
           <TableColumn fx:id="ofertaTable" prefWidth="128.0" text="Oferta" />
         </columns>
       </TableView>
+      <Button fx:id="unirse" layoutX="557.0" layoutY="343.0" mnemonicParsing="false" onAction="#unirsePuja" prefHeight="65.0" prefWidth="219.0" text="unirse" />
+      <Button layoutX="18.0" layoutY="24.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="119.0" text="Volver" />
+      <Text fx:id="nombreObj" layoutX="557.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre del objeto" wrappingWidth="183.13671875">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="mensajeServer" layoutX="617.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="265.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>

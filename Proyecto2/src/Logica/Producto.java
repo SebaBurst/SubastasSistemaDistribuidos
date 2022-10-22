@@ -17,11 +17,20 @@ public class Producto implements Serializable{
     private boolean vendido = false;
     private int valorActual;
     private ArrayList<Oferta>ofertasRealizadas = new ArrayList();
-    
+    private String mensaje = "";
     
     public Producto(String nombre, int valorInicial) {
         this.nombre = nombre;
+        this.mensaje = "";
         this.valorInicial = valorInicial;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
     }
 
     
@@ -47,6 +56,22 @@ public class Producto implements Serializable{
 
     public void setValorActual(int valorActual) {
         this.valorActual = valorActual;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getValorInicial() {
+        return valorInicial;
+    }
+
+    public void setValorInicial(int valorInicial) {
+        this.valorInicial = valorInicial;
     }
     
     

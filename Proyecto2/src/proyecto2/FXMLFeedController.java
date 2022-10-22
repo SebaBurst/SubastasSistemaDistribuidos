@@ -57,6 +57,7 @@ public class FXMLFeedController implements Initializable {
             go.setOnAction(e -> {
                 Parent vista = null;
                 try {
+                    FXMLDocumentController.pochita = productos.get(Integer.valueOf(go.getText()));
                     vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
                 } catch (IOException ex) {
                     Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
