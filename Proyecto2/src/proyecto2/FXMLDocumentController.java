@@ -279,7 +279,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
                         //winGif.setVisible(true);
                         textWin.setVisible(true);
                         textWin.setText("¡Haz Perdido!¡Lo sentimos!");
-                        //winBg.setVisible(true);
+                        winBg.setVisible(true);
                         closeAlert.setVisible(true);
                         loseBg.setVisible(true);
                         loseGif.setVisible(true);
