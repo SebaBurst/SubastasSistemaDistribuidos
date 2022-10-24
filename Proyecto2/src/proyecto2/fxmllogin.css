@@ -2,6 +2,67 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
+.btnInicio{
+    -fx-background-color: #00adff;
+    border-radius: 30px;
+    -fx-text-fill: white;
+}
+.btnInicio:hover{
+    -fx-background-color: #174979;
+    border-radius: 30px;
+        -fx-text-fill: white;
 
 }
+
+
+.btnUnirse{
+    -fx-background-color: #2ebf83;
+    border-radius: 30px;
+    -fx-text-fill: white;
+}
+.btnUnirse:hover{
+    -fx-background-color: #276f51;
+    border-radius: 30px;
+    -fx-text-fill: white;
+
+}
+
+
+
+.cerrar{
+    -fx-background-color: transparent;
+    -fx-min-height: 15px;
+    -fx-background-radius:50px;
+    -fx-background-size: 15px 15px;
+    -fx-min-width: 15px;
+    -fx-graphic: url('/assets/cerrar.png');  
+}
+
+.min{
+    -fx-background-color: transparent;
+    -fx-min-height: 20px;
+    -fx-background-radius:20px;
+    -fx-background-size: 20px 30px;
+    -fx-min-width: 20px;
+    -fx-graphic: url('/assets/Minimizar.png');  
+}
+
+
+.cerrar:hover{
+    -fx-background-color: transparent;
+    -fx-min-height: 15px;
+    -fx-background-radius:50px;
+    -fx-background-size: 15px 15px;
+    -fx-min-width: 15px;
+    -fx-graphic: url('/assets/cerrarHover.png');  
+}
+
+.min:hover{
+    -fx-background-color: transparent;
+    -fx-min-height: 20px;
+    -fx-background-radius:20px;
+    -fx-background-size: 20px 30px;
+    -fx-min-width: 20px;
+    -fx-graphic: url('/assets/minHover.png');  
+}
+

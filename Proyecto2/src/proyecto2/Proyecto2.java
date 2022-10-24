@@ -8,7 +8,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -23,7 +25,13 @@ public class Proyecto2 extends Application {
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        //stage.getIcons().add(new Image("/Vistas/RecursosGraficos/Icono.png"));
+        stage.setTitle("Guerra de Subastas"); // Asignacion de nombre
         stage.show();
+        
     }
 
     /**

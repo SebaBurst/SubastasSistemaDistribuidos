@@ -21,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -92,5 +93,36 @@ public class FXMLLoginController implements Initializable {
         vistaActual = (Stage) ((Node) e.getSource()).getScene().getWindow();
         vistaActual.setScene(nuevaEscena);
 
+    }
+
+    double x, y;
+
+    @FXML
+    private void arrastar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+
+    }
+
+    @FXML
+    private void presionar(MouseEvent event) {
+
+        x = event.getSceneX();
+        y = event.getSceneY();
+
+    }
+
+    @FXML
+    private void cerrar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        System.exit(0);
+    }
+
+    @FXML
+    private void minimizar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
 }

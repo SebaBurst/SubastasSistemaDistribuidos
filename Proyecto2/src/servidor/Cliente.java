@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import Logica.Producto;
+import Logica.Serializar;
 import Logica.Usuario;
 import java.util.Collections;
 import java.util.Comparator;
@@ -83,12 +84,15 @@ public class Cliente extends Thread {
                     pochita.setMensaje("Tenemos Ganador!!! ");
                     Oferta ofertaFinal = ofertas.get(ofertas.size() - 1);
                     pochita.setGanador(ofertaFinal.getOfertador());
+                    Serializar.escribirArchivo();
+
                 }
                 //Producto csm = (Producto) objectInputStream.readObject();
                 //csm.info();
                 for (int i = 0; i < clientes.size(); i++) {
                     clientes.get(i).objectOutputStream.writeObject(pochita);
                 }
+
 
             }
         } catch (IOException e) {

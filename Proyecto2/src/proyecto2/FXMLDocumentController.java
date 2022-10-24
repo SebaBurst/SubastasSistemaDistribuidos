@@ -31,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -42,9 +43,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import static proyecto2.FXMLLoginController.cambiarVista;
 import static proyecto2.FXMLLoginController.loggerUser;
 
@@ -308,6 +311,37 @@ public class FXMLDocumentController extends Thread implements Initializable {
         Parent vista;
         vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLFeed.fxml"));
         cambiarVista(event, vista);
+    }
+
+    double x, y;
+
+    @FXML
+    private void arrastar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+
+    }
+
+    @FXML
+    private void presionar(MouseEvent event) {
+
+        x = event.getSceneX();
+        y = event.getSceneY();
+
+    }
+
+    @FXML
+    private void cerrar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        System.exit(0);
+    }
+
+    @FXML
+    private void minimizar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
 
 }

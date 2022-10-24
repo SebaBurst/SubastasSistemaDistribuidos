@@ -17,15 +17,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import static proyecto2.FXMLLoginController.cambiarVista;
 import static proyecto2.FXMLLoginController.loggerUser;
 
@@ -52,7 +55,7 @@ public class FXMLFeedController implements Initializable {
             + "-fx-text-fill:white;"
             + "-fx-background-radius:0px;";
 
-    private ArrayList<Producto> productos = new ArrayList();
+    public static ArrayList<Producto> productos = new ArrayList();
     /**
      * Initializes the controller class.
      */
@@ -88,7 +91,10 @@ public class FXMLFeedController implements Initializable {
         Image imagen = new Image("/assets/icons/icon" + loggerUser.getIcono() + ".png");
         profileImg.setImage(imagen);
         loggerUser.getUsername();
-        createProducts();
+        if (productos.size() == 0) {
+            createProducts();
+        }
+
         createGridPane();
         cargarIconos();
     }
@@ -150,16 +156,14 @@ public class FXMLFeedController implements Initializable {
 
                     }
                 } else {
-                     try {
+                    try {
 
-                            vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
-                        } catch (IOException ex) {
-                            Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-                        FXMLLoginController.cambiarVista(e, vista);
-
-                    
+                    FXMLLoginController.cambiarVista(e, vista);
 
                 }
 
@@ -261,6 +265,37 @@ public class FXMLFeedController implements Initializable {
 
     public boolean isFileEmpty(File file) {
         return file.length() == 0;
+    }
+
+    double x, y;
+
+    @FXML
+    private void arrastar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setX(event.getScreenX() - x);
+        stage.setY(event.getScreenY() - y);
+
+    }
+
+    @FXML
+    private void presionar(MouseEvent event) {
+
+        x = event.getSceneX();
+        y = event.getSceneY();
+
+    }
+
+    @FXML
+    private void cerrar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        System.exit(0);
+    }
+
+    @FXML
+    private void minimizar(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
 
 }
