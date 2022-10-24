@@ -5,6 +5,7 @@
 package proyecto2;
 
 import Logica.Producto;
+import Logica.Serializar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -109,15 +111,26 @@ public class FXMLFeedController implements Initializable {
             botonAcceso.setOnAction(e -> {
                 Parent vista = null;
                 FXMLDocumentController.pochita = productos.get(Integer.valueOf(botonAcceso.getText()));
-                try {
-                   
-                    vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
-                } catch (IOException ex) {
-                    Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                Producto producto = productos.get(Integer.valueOf(botonAcceso.getText()));
+                Producto productoInfo = null;
+                productoInfo = (Producto) Serializar.cargar(productoInfo, producto.getNombre());
+                if (productoInfo.getGanador() != null) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(null);
+                    alert.setTitle("Error");
+                    alert.setContentText("El Objeto ya ha sido vendido");
+                    alert.showAndWait();
+                } else {
+                    try {
+
+                        vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
+                    } catch (IOException ex) {
+                        Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    FXMLLoginController.cambiarVista(e, vista);
+
                 }
-
-                FXMLLoginController.cambiarVista(e, vista);
-
             });
             panelProductos.add(botonAcceso, i, 0);
         }
