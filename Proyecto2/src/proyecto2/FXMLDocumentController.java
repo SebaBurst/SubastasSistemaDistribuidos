@@ -97,6 +97,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private Button returnFeed;
     @FXML
     private Text ganador;
+    @FXML
+    private ImageView profileImage;
+    @FXML
+    private Text userText;
 
     //Metodo donde enviamos el objeto
     @FXML
@@ -128,7 +132,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         }
 
-        if (pochita.getOfertasRealizadas().size() >= 11) {
+        if (pochita.getOfertasRealizadas().size() >= 8) {
             button.setVisible(false);
             oferta.setVisible(false);
         }
@@ -166,6 +170,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Image imagen = new Image("/assets/icons/icon" + loggerUser.getIcono() + ".png");
+        profileImage.setImage(imagen);
+        userText.setText(loggerUser.getUsername());
         //label.setText("Bienvenido " + loggerUser.getUsername());
         connectSocket();
         oferta.setVisible(false);

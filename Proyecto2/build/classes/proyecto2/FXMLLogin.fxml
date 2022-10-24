@@ -47,5 +47,10 @@
       <Circle fill="#00adff" layoutX="982.0" layoutY="1.0" radius="81.0" stroke="TRANSPARENT" strokeType="INSIDE" />
       <Circle fill="#435ccd" layoutX="-6.0" layoutY="561.0" radius="77.0" stroke="TRANSPARENT" strokeType="INSIDE" />
       <Circle fill="#435ccd" layoutX="44.0" layoutY="47.0" radius="77.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+      <ImageView fitHeight="116.0" fitWidth="344.0" layoutX="99.0" layoutY="491.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

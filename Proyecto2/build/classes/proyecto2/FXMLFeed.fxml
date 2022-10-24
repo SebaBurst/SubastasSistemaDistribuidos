@@ -59,6 +59,24 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Rectangle fx:id="iconBG" fill="#174979" height="68.0" layoutX="715.0" layoutY="68.0" stroke="TRANSPARENT" strokeType="INSIDE" width="345.0" />
+      <Rectangle fx:id="iconBG" fill="#174979" height="90.0" layoutX="507.0" layoutY="68.0" stroke="TRANSPARENT" strokeType="INSIDE" width="553.0" />
+      <GridPane fx:id="gridIcon" layoutX="530.0" layoutY="78.0" prefHeight="70.0" prefWidth="459.0" visible="false">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <ImageView fitHeight="59.0" fitWidth="160.0" layoutX="52.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

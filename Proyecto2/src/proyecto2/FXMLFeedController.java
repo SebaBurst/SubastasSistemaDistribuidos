@@ -6,12 +6,14 @@ package proyecto2;
 
 import Logica.Producto;
 import Logica.Serializar;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -63,6 +65,8 @@ public class FXMLFeedController implements Initializable {
     @FXML
     private ImageView profileImg;
     private boolean hideProfile = true;
+    @FXML
+    private GridPane gridIcon;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -72,16 +76,21 @@ public class FXMLFeedController implements Initializable {
             if (hideProfile) {
                 iconBG.setVisible(true);
                 hideProfile = false;
+                gridIcon.setVisible(true);
             } else {
                 iconBG.setVisible(false);
+                gridIcon.setVisible(false);
+
                 hideProfile = true;
             }
 
         });
-
+        Image imagen = new Image("/assets/icons/icon" + loggerUser.getIcono() + ".png");
+        profileImg.setImage(imagen);
         loggerUser.getUsername();
         createProducts();
         createGridPane();
+        cargarIconos();
     }
 
     public void createProducts() {
@@ -113,24 +122,47 @@ public class FXMLFeedController implements Initializable {
                 FXMLDocumentController.pochita = productos.get(Integer.valueOf(botonAcceso.getText()));
                 Producto producto = productos.get(Integer.valueOf(botonAcceso.getText()));
                 Producto productoInfo = null;
-                productoInfo = (Producto) Serializar.cargar(productoInfo, producto.getNombre());
-                if (productoInfo.getGanador() != null) {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(null);
-                    alert.setTitle("Error");
-                    alert.setContentText("El Objeto ya ha sido vendido");
-                    alert.showAndWait();
+
+                File archivo = new File(producto.getNombre() + ".txt");
+                if (archivo.exists()) {
+                    System.out.println("Oe!!! Pcohita existo");
+
                 } else {
-                    try {
+                    System.out.println("El Gatooo!!");
+                }
+                if (!isFileEmpty(archivo)) {
+                    productoInfo = (Producto) Serializar.cargar(productoInfo, producto.getNombre());
+                    if (productoInfo.getGanador() != null) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setHeaderText(null);
+                        alert.setTitle("Error");
+                        alert.setContentText("El Objeto ya ha sido vendido");
+                        alert.showAndWait();
+                    } else {
+                        try {
 
-                        vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
-                    } catch (IOException ex) {
-                        Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                            vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
+                        } catch (IOException ex) {
+                            Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        FXMLLoginController.cambiarVista(e, vista);
+
                     }
+                } else {
+                     try {
 
-                    FXMLLoginController.cambiarVista(e, vista);
+                            vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLDocument.fxml"));
+                        } catch (IOException ex) {
+                            Logger.getLogger(FXMLFeedController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        FXMLLoginController.cambiarVista(e, vista);
+
+                    
 
                 }
+
             });
             panelProductos.add(botonAcceso, i, 0);
         }
@@ -180,6 +212,55 @@ public class FXMLFeedController implements Initializable {
         imagen.setSmooth(true);
 
         return imagen;
+    }
+
+    public void cargarIconos() {
+        Image imagen3 = null;
+        for (int i = 0; i < 6; i++) {
+            ImageView imagen = null;// Se inicializa una imageView para usarlo como miniatura
+            imagen = new ImageView("/assets/icons/icon" + i + ".png");
+            //DropShadow ds = new DropShadow(18, Color.BLACK);
+            //imagen.setEffect(ds);
+            imagen.setFitWidth(68);// Se asignan las dimensiones de la imagen
+            imagen.setFitHeight(68);
+            imagen.setFocusTraversable(true);
+            imagen.setSmooth(true);
+            gridIcon.add(imagen, i, 0);
+            Button botonAcceso = new Button();
+            botonAcceso.setStyle(PRINCIPAL_BOTON);
+
+            botonAcceso.setMinWidth(68);
+            botonAcceso.setMinHeight(68);
+            botonAcceso.setMaxWidth(68);
+            botonAcceso.setMaxHeight(68);
+            botonAcceso.setOnMouseEntered(e -> {
+
+                botonAcceso.setStyle(HOVER_BOTON);
+
+            });
+            botonAcceso.setOnMouseExited(e -> {
+                botonAcceso.setStyle(PRINCIPAL_BOTON);
+            });
+            botonAcceso.setText(Integer.toString(i));
+            botonAcceso.setOnAction((ActionEvent event) -> {
+
+                FXMLLoginController.loggerUser.setIcono(Integer.parseInt(botonAcceso.getText()));
+                cargarImagenIcono(Integer.parseInt(botonAcceso.getText()));
+            });
+            gridIcon.add(botonAcceso, i, 0);
+
+        }
+
+    }
+
+    public void cargarImagenIcono(int i) {
+        Image imagen = new Image("/assets/icons/icon" + i + ".png");
+        profileImg.setImage(imagen);
+
+    }
+
+    public boolean isFileEmpty(File file) {
+        return file.length() == 0;
     }
 
 }

@@ -15,6 +15,7 @@ public class Usuario implements Serializable{
     private final String nombre;
     private final String username;
     private final String password;
+    private int icono = 0;
 
     
     public Usuario(String nombre, String username, String password) {
@@ -23,6 +24,14 @@ public class Usuario implements Serializable{
         this.password = password;
     }
 
+    
+    public void setIcono(int icono){
+        this.icono = icono;
+    
+    }
+    public int getIcono() {
+        return icono;
+    }
     public String getNombre() {
         return nombre;
     }
