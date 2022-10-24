@@ -26,7 +26,6 @@ public class Server {
             while (true) {
                 System.out.println("Esperando a los personajes.....");
                 //InputStream o = socket.getInputStream();
-                
                 socket = serverSocket.accept();
                 System.out.println("Estoy super duper conectado....");
                 Cliente clientThread = new Cliente(socket, clientes);

@@ -83,10 +83,15 @@ public class FXMLFeedController implements Initializable {
     }
 
     public void createProducts() {
-        Producto pochita = new Producto("Pochita", 0);
-        Producto p2 = new Producto("Martillo de Thor", 0);
-        Producto p3 = new Producto("Platanos", 0);
-        Producto p4 = new Producto("Chupalla", 0);
+        Producto pochita = new Producto("Pochita", 3000);
+        Producto p2 = new Producto("Martillo de Thor", 10000);
+        Producto p3 = new Producto("Platanos", 1000);
+        Producto p4 = new Producto("Chupalla", 6000);
+        pochita.setValorActual(3000);
+        p2.setValorActual(10000);
+        p3.setValorActual(1000);
+        p4.setValorActual(6000);
+
         productos.add(pochita);
         productos.add(p2);
         productos.add(p4);

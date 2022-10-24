@@ -61,22 +61,24 @@ public class Cliente extends Thread {
             while ((pochita = (Producto) objectInputStream.readObject()) != null) {
                 ArrayList<Oferta> ofertas = pochita.getOfertasRealizadas();
                 Collections.sort(ofertas, ofertaMayor);
+                Oferta mayor = ofertas.get(ofertas.size()-1);
+                pochita.setValorActual(mayor.getCantidadOfertada());
 
                 if (pochita.getOfertasRealizadas().size() == 5) {
                     pochita.setMensaje("Ladys and gentlemans  - " + pochita.getNombre() + ""
-                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                             + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
                 } else if (pochita.getOfertasRealizadas().size() == 6) {
                     pochita.setMensaje("Apurence ineptos que el producto:   - " + pochita.getNombre() + ""
-                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                            + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
                 } else if (pochita.getOfertasRealizadas().size() == 7) {
                     pochita.setMensaje("Cuenta la leyenda que el producto:   - " + pochita.getNombre() + ""
-                            + "\n" + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                            + " Esta a punto de ser rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
                 } else if (pochita.getOfertasRealizadas().size() == 8) {
                     pochita.setMensaje("Solo esperaremos 3 ofertas mas antes que el producto:   - " + pochita.getNombre() + ""
-                            + "\n" + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                            + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
                 } else if (pochita.getOfertasRealizadas().size() == 9) {
                     pochita.setMensaje("Subanle a la oferta !!! Solo esperaremos 2 ofertas mas antes que el producto:   - " + pochita.getNombre() + ""
-                            + "\n" + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
+                             + " sea rematado en " + pochita.getOfertasRealizadas().get(0).getCantidadOfertada());
                 } else if (pochita.getOfertasRealizadas().size() == 10) {
                     pochita.setMensaje("ULTIMO LLAMADO... ADICTOS A LAS APUESTAS !!! La siguiente oferta se lleva el producto:    - " + pochita.getNombre() + ""
                     );

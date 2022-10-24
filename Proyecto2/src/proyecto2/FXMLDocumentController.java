@@ -105,9 +105,20 @@ public class FXMLDocumentController extends Thread implements Initializable {
         boolean esNumero = (of != null && of.matches("[0-9]+"));
         if (esNumero) {
             int dinero = Integer.parseInt(of);
-            Oferta o = new Oferta(loggerUser, dinero);
-            pochita.agregarOferta(o);
-            objectOutputStream.writeObject(pochita);
+            if (dinero > pochita.getValorActual()) {
+                Oferta o = new Oferta(loggerUser, dinero);
+                pochita.agregarOferta(o);
+                objectOutputStream.writeObject(pochita);
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setTitle("Error");
+                alert.setContentText("Su Oferta es menor a la oferta que va ganando");
+                alert.showAndWait();
+
+            }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
@@ -187,6 +198,9 @@ public class FXMLDocumentController extends Thread implements Initializable {
         Collections.sort(ofertasSubasta, ofertaMayor);
         if (ofertasSubasta.size() > 0) {
             Precio.setText(String.valueOf(ofertasSubasta.get(ofertasSubasta.size() - 1).getCantidadOfertada()));
+        } else {
+            Precio.setText(String.valueOf(pochita.getValorInicial()));
+
         }
         //Collections.sort(ofertasSubasta, Collections.reverseOrder());
 
@@ -207,14 +221,13 @@ public class FXMLDocumentController extends Thread implements Initializable {
                     pochita = p;
 
                 }
-                
-                
+
                 if (pochita.getGanador() != null) {
                     button.setVisible(false);
                     oferta.setVisible(false);
                     String winner = pochita.getGanador().getUsername();
-                    System.out.println("Winner: "+ winner );
-                    ganador.setText("Ganador: "+winner);
+                    System.out.println("Winner: " + winner);
+                    ganador.setText("Ganador: " + winner);
                     //ganador.setText("Ganador: "+(pochita.getGanador().getUsername()));
 
                 }

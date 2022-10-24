@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="642.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2.FXMLFeedController">
+   <children>
+      <Rectangle fill="#e8e8e8" height="696.0" layoutX="-36.0" layoutY="-53.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="1096.0" />
+      <Rectangle fill="#174979" height="68.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1060.0" />
+      <ImageView fx:id="profileImg" fitHeight="68.0" fitWidth="75.0" layoutX="992.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/icons/pochita.jpg" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="panelProductos" layoutX="79.0" layoutY="156.0" prefHeight="352.0" prefWidth="902.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <Text fx:id="usernameText" fill="WHITE" layoutX="887.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="91.0" fitWidth="59.0" layoutX="72.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/mazo.png" />
+         </image>
+      </ImageView>
+      <Text fill="#132a40" layoutX="166.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Productos en remate">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Button layoutX="485.0" layoutY="107.0" mnemonicParsing="false" text="Mercado Negro" />
+      <Rectangle fill="#174979" height="68.0" layoutY="575.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1060.0" />
+      <ImageView fitHeight="99.0" fitWidth="106.0" layoutX="31.0" layoutY="538.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/juez/juez02.png" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e89b44" height="59.0" layoutX="150.0" layoutY="558.0" stroke="TRANSPARENT" strokeType="INSIDE" width="414.0" />
+      <Text fill="WHITE" layoutX="179.0" layoutY="584.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hola!!! ... Para ingresar a una subasta presiona sobre el producto que te interesa." wrappingWidth="356.13671875">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Rectangle fx:id="iconBG" fill="#174979" height="68.0" layoutX="715.0" layoutY="68.0" stroke="TRANSPARENT" strokeType="INSIDE" width="345.0" />
+   </children>
+</AnchorPane>
