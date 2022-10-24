@@ -71,6 +71,11 @@ public class FXMLFeedController implements Initializable {
     @FXML
     private GridPane gridIcon;
 
+    /**
+     * Metodo que inicializa la ventana
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         usernameText.setText(loggerUser.getUsername());
@@ -99,7 +104,11 @@ public class FXMLFeedController implements Initializable {
         cargarIconos();
     }
 
+    /**
+     * Metodo que crea productos en el sistema 
+     */
     public void createProducts() {
+        //Creamos productos y le seteamos un valor inicial.
         Producto pochita = new Producto("Pochita", 3000);
         Producto p2 = new Producto("Martillo de Thor", 10000);
         Producto p3 = new Producto("Platanos", 1000);
@@ -116,6 +125,9 @@ public class FXMLFeedController implements Initializable {
 
     }
 
+    /**
+     * Metodo que crea la vista de los productos dentro de un gridpane.
+     */
     public void createGridPane() {
         for (int i = 0; i < productos.size(); i++) {
             ImageView imagen = createImage(productos.get(i).getNombre());
@@ -174,6 +186,13 @@ public class FXMLFeedController implements Initializable {
 
     }
 
+    /**
+     * Metodo que crea el boton de acceso a la vista del producto que se une a la imagen del gridpane.
+     * @param number
+     * @param imagen
+     * @param nombre
+     * @return 
+     */
     public Button createButton(int number, ImageView imagen, String nombre) {
         Button go = new Button();
         go.setText(String.valueOf(number));
@@ -206,6 +225,11 @@ public class FXMLFeedController implements Initializable {
 
     }
 
+    /**
+     * Metodo que retorna una imagen creada desde un url.
+     * @param nombre
+     * @return 
+     */
     public ImageView createImage(String nombre) {
         ImageView imagen = null;
 
@@ -218,6 +242,9 @@ public class FXMLFeedController implements Initializable {
         return imagen;
     }
 
+    /**
+     * Metodo que carga los iconos de usuarios en la aplicacion.
+     */
     public void cargarIconos() {
         Image imagen3 = null;
         for (int i = 0; i < 6; i++) {
@@ -257,16 +284,28 @@ public class FXMLFeedController implements Initializable {
 
     }
 
+    /**
+     * Metodo que asigna una imagen al boton del icono de usuarios
+     * @param i 
+     */
     public void cargarImagenIcono(int i) {
         Image imagen = new Image("/assets/icons/icon" + i + ".png");
         profileImg.setImage(imagen);
 
     }
 
+    /**
+     * Metodo que pregunta si un archivo es vacio.
+     * @param file
+     * @return 
+     */
     public boolean isFileEmpty(File file) {
         return file.length() == 0;
     }
 
+    /**
+     * Metodos para mover, cerrar y minimizar la aplicacion en la pantalla.
+     */
     double x, y;
 
     @FXML

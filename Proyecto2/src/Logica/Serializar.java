@@ -61,6 +61,11 @@ public class Serializar {
         }
     }
 
+    
+    /**
+     * Metodo que escribe el archivo cuando una subasta a seleccionado a un ganador+
+     * para tener un registro.
+     */
     public static void escribirArchivo() {
         Producto p2 = null;
         ArrayList<Producto> objetos = new ArrayList();

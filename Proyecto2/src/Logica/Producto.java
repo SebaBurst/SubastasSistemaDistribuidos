@@ -12,14 +12,18 @@ import java.util.ArrayList;
  * @author Sebastian
  */
 public class Producto implements Serializable{
+    //Atributos de producto
     private String nombre;
     private int valorInicial;
     private boolean vendido = false;
     private int valorActual;
+    //Lista de ofertas realizadas sobre ese producto.
     private ArrayList<Oferta>ofertasRealizadas = new ArrayList();
-    private String mensaje = "";
-    private Usuario ganador;
+    private String mensaje = ""; //Mensajes recibidos por el servidor en base a las ofertas realizadas.
+    private Usuario ganador; //Ganador de la subasta.
     
+    
+    //Constructor del producto
     public Producto(String nombre, int valorInicial) {
         this.nombre = nombre;
         this.mensaje = "";
@@ -34,8 +38,6 @@ public class Producto implements Serializable{
         this.ganador = ganador;
     }
     
-    
-
     public String getMensaje() {
         return mensaje;
     }
@@ -86,6 +88,10 @@ public class Producto implements Serializable{
     }
     
     
+    /**
+     * Metodo que muestra la informacion del producto en conosola.
+     * PD: El metodo se usa realmente para realizar pruebas.
+     */
     public void info(){
         System.out.println("Informacion del producto");
         System.out.println("Nombre: "+nombre);

@@ -104,6 +104,18 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private ImageView profileImage;
     @FXML
     private Text userText;
+    @FXML
+    private ImageView winGif;
+    @FXML
+    private Rectangle winBg;
+    @FXML
+    private Text textWin;
+    @FXML
+    private Button closeAlert;
+    @FXML
+    private Rectangle loseBg;
+    @FXML
+    private ImageView loseGif;
 
     //Metodo donde enviamos el objeto
     @FXML
@@ -167,31 +179,44 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     }
 
+    //Metodo que pregunta si un archivo tiene infromacion adentro
     public boolean isFileEmpty(File file) {
         return file.length() == 0;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //Ponemos variables graficas invisibles.
+        winGif.setVisible(false);
+        textWin.setVisible(false);
+        winBg.setVisible(false);
+        closeAlert.setVisible(false);
+        loseBg.setVisible(false);
+        loseGif.setVisible(false);
+
+        //Cargamos el icono del usuario.
         Image imagen = new Image("/assets/icons/icon" + loggerUser.getIcono() + ".png");
+        //Seteamos el nombre y el icono del usuario
         profileImage.setImage(imagen);
         userText.setText(loggerUser.getUsername());
         //label.setText("Bienvenido " + loggerUser.getUsername());
+        //Conectamos el socket
         connectSocket();
+        //Ponemos mas variables invisibles.
         oferta.setVisible(false);
         button.setVisible(false);
         nombreObj.setText(pochita.getNombre());
 
         Image image1 = new Image("/assets/" + pochita.getNombre() + ".png");
-
         productImage.setImage(image1);
-
+        //Preguntamos si el archivo con la informacion del producto existe
         File archivo = new File(pochita.getNombre() + ".txt");
         if (archivo.exists()) {
             System.out.println("Oe!!! Pcohita existo");
 
         }
         if (!isFileEmpty(archivo)) {
+            //En caso de existir cargamos la informacion serializada
             pochita = (Producto) Serializar.cargar(pochita, pochita.getNombre());
         } else {
             System.out.println("No se ha serializado nada");
@@ -200,6 +225,7 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
         //TablaOfertas.getItems().clear();
         //ofertasSubasta.clear();
+        //Declaramos la table y le ingresamos los datos actuales de ofertas del priducto
         usernameTable.setCellValueFactory(new PropertyValueFactory<>("ofertador"));
         ofertaTable.setCellValueFactory(new PropertyValueFactory<>("cantidadOfertada"));
         for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
@@ -218,43 +244,70 @@ public class FXMLDocumentController extends Thread implements Initializable {
         TablaOfertas.setVisible(false);
     }
 
-    //Mandar las lista de las ofertas y no el producto, pero la ofertas tendran identificador para poder filtrarlas.
-    //Metodo que lee el string mandadado desde el servidor... :(
+    /**
+     * Metodo que recibe informacion desde el servidor, para el usuario
+     */
     @Override
     public void run() {
         try {
             while (true) {
                 //pochita.info();
-                Producto p = (Producto) objectInputStream.readObject();
-                if (p.getNombre().equals(pochita.getNombre())) {
+                Producto p = (Producto) objectInputStream.readObject(); // Cargamos el objeto
+                if (p.getNombre().equals(pochita.getNombre())) { //Preguntamos si es el obejto que esta viendo el usuario, para no mezclar las ofertas
                     //System.out.println("Estoy en ++++" + pochita.getNombre());
                     pochita = p;
 
                 }
 
+                //Preguntamos si el ganador ha sido decidido
+                //Si existe ganador, anulamos la opcion de seguir haciendo ofertas y mostramos al ganador
                 if (pochita.getGanador() != null) {
                     button.setVisible(false);
                     oferta.setVisible(false);
                     String winner = pochita.getGanador().getUsername();
                     System.out.println("Winner: " + winner);
                     ganador.setText("Ganador: " + winner);
+                    if (FXMLLoginController.loggerUser.getUsername().equals(winner)) {
+                        winGif.setVisible(true);
+                        textWin.setVisible(true);
+                        winBg.setVisible(true);
+                        closeAlert.setVisible(true);
+                        //loseBg.setVisible(false);
+                        //loseGif.setVisible(false)
+                    }
+                    else{
+                        //winGif.setVisible(true);
+                        textWin.setVisible(true);
+                        textWin.setText("¡Haz Perdido!¡Lo sentimos!");
+                        //winBg.setVisible(true);
+                        closeAlert.setVisible(true);
+                        loseBg.setVisible(true);
+                        loseGif.setVisible(true);
+                    
+                    }
                     //ganador.setText("Ganador: "+(pochita.getGanador().getUsername()));
 
                 }
+                //Serializamos el objeto para que otros usuarios que ingresen pueda ver las ofertas actuales
                 Serializar.serializar(pochita, pochita.getNombre());
-                ofertasSubasta.clear();
+                ofertasSubasta.clear();// Limpiamos la vista de laas ofertas
+                
+                //Cargamos las ofertas recibidas por el servidor
                 for (int i = 0; i < pochita.getOfertasRealizadas().size(); i++) {
 
                     ofertasSubasta.add(pochita.getOfertasRealizadas().get(i));
                 }
 
+                //Preguntamos si el servidor mando un mensaje relacionado con la subasta del objeto
                 if (!pochita.getMensaje().equals("")) {
                     mensajeServer.setText(pochita.getMensaje());
 
                 }
+                //Ordenamos las ofertas de mayor a menor para saber aquella que va ganado
                 Collections.sort(ofertasSubasta, ofertaMayor);
                 //Collections.sort(ofertasSubasta, Collections.reverseOrder());
                 if (!ofertasSubasta.isEmpty()) {
+                    //Seteamos la oferta que va ganando.
                     Oferta mayor = ofertasSubasta.get(ofertasSubasta.size() - 1);
                     Precio.setText(String.valueOf(mayor.getCantidadOfertada()));
                 }
@@ -288,6 +341,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
         }
     };
 
+    /**
+     * Metodo que nos permite unirnos a la puja, si nos interesa el producto
+     * @param event 
+     */
     @FXML
     private void unirsePuja(ActionEvent event) {
         oferta.setVisible(true);
@@ -299,6 +356,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
         TablaOfertas.setVisible(true);
     }
 
+    /**
+     * Metodo que retorna al usuario al menu de objetos
+     * @param event
+     * @throws IOException 
+     */
     private void volver(ActionEvent event) throws IOException {
         Parent vista;
         vista = (AnchorPane) FXMLLoader.load(getClass().getResource("/proyecto2/FXMLFeed.fxml"));
@@ -306,6 +368,11 @@ public class FXMLDocumentController extends Thread implements Initializable {
 
     }
 
+    /**
+     * Metodo que retorna al usuario al feed.
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void volverAlInicio(ActionEvent event) throws IOException {
         Parent vista;
@@ -313,7 +380,10 @@ public class FXMLDocumentController extends Thread implements Initializable {
         cambiarVista(event, vista);
     }
 
-    double x, y;
+    /**
+     * Metodos para mover la aplicacion en la pantalla de forma personalizada.
+     */
+    double x, y; //Coordenadas en pantalla de la aplicacion.
 
     @FXML
     private void arrastar(MouseEvent event) {
@@ -342,6 +412,20 @@ public class FXMLDocumentController extends Thread implements Initializable {
     private void minimizar(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setIconified(true);
+    }
+
+    /**
+     * Metodo que oculta la ventana de notificacion de ganador o perdedor.
+     * @param event 
+     */
+    @FXML
+    private void cerrarGanador(ActionEvent event) {
+        winGif.setVisible(false);
+        textWin.setVisible(false);
+        winBg.setVisible(false);
+        closeAlert.setVisible(false);
+        loseBg.setVisible(false);
+        loseGif.setVisible(false);
     }
 
 }

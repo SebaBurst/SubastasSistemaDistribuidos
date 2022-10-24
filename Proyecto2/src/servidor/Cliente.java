@@ -29,8 +29,11 @@ import proyecto2.FXMLLoginController;
  */
 public class Cliente extends Thread {
 
+    /**
+     * Declaramos variables
+     */
     private ArrayList<Cliente> clientes;
-    private Socket socket;
+    private Socket socket; 
     private ObjectInputStream objectInput;
     private InputStream lector;
     private OutputStream outputStream;
@@ -38,7 +41,11 @@ public class Cliente extends Thread {
     private ObjectOutputStream objectOutputStream;
     //private BufferedReader reader;
 
-    //Constructor
+    /**
+     * Constructor que recibe el socket asignado al cliente, junto con la lista de otros clientes.
+     * @param socket
+     * @param clientes 
+     */
     public Cliente(Socket socket, ArrayList<Cliente> clientes) {
         try {
             this.socket = socket;
@@ -56,15 +63,21 @@ public class Cliente extends Thread {
 
     }
 
+    /**
+     * Metodo que lee un objeto enviado por un cliente
+     */
     public void readObject() {
         try {
-            Producto pochita;
+            Producto pochita; 
+            //Tendremos un while que funcionara mientras el objeto que se envie no sea null
             while ((pochita = (Producto) objectInputStream.readObject()) != null) {
+                //Recibimos el objeto y extraemos las ofertas para asignar el valor maximo de oferta
                 ArrayList<Oferta> ofertas = pochita.getOfertasRealizadas();
-                Collections.sort(ofertas, ofertaMayor);
+                Collections.sort(ofertas, ofertaMayor); //Ordenamos las ofertas
                 Oferta mayor = ofertas.get(ofertas.size()-1);
                 pochita.setValorActual(mayor.getCantidadOfertada());
 
+                //En base a la cantidad de ofertas, enviaremos ciertos mensaje a los usuarios para mostrarles a todos
                 if (pochita.getOfertasRealizadas().size() == 3) {
                     pochita.setMensaje("Ladys and gentlemans  - " + pochita.getNombre() + ""
                              + " Esta a punto de ser rematado en " + mayor.getCantidadOfertada());
@@ -87,8 +100,8 @@ public class Cliente extends Thread {
                     Serializar.escribirArchivo();
 
                 }
-                //Producto csm = (Producto) objectInputStream.readObject();
-                //csm.info();
+                
+                //Enviamos el objeto a todos los usuarios que conozca nuestro cliente.
                 for (int i = 0; i < clientes.size(); i++) {
                     clientes.get(i).objectOutputStream.writeObject(pochita);
                 }
@@ -113,9 +126,12 @@ public class Cliente extends Thread {
         }
     };
 
+    /**
+     * Metodo que ejecuta el hilo
+     */
     @Override
     public void run() {
-        readObject();
+        readObject(); //Llamamos a la funcion de leerr.
     }
 
 }

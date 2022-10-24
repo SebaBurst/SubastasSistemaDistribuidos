@@ -32,6 +32,8 @@ import javafx.stage.Stage;
  */
 public class FXMLLoginController implements Initializable {
 
+    
+    //Declaracion de variables
     @FXML
     private TextField nameTextField;
     @FXML
@@ -41,11 +43,15 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private CheckBox checklogin;
     public static Producto pochita;
-    ///
     public static ArrayList<Usuario> usuarios = new ArrayList();
     public ArrayList<Usuario> usuariosEnLinea = new ArrayList();
     public static Usuario loggerUser = null;
 
+    
+    
+    /**
+     * Metodo para crear usuarios y agregarlos al sistema
+     */
     public void crearUsuarios() {
         Usuario usuario1 = new Usuario("Poio", "Poio", "password");
         Usuario usuario2 = new Usuario("Sergio", "Serjo", "password");
@@ -60,15 +66,28 @@ public class FXMLLoginController implements Initializable {
         usuarios.add(usuario6);
     }
 
+    
+    /**
+     * Metodo que inicializa la vista
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         crearUsuarios();
         pochita = new Producto("Peluche de Pochita", 0);
     }
 
+    /**
+     * Metodo que manda el realiza la autentificaicion del sistema.
+     * Verifica que los datos ingresados por el cliente sean compatibles con algun usuario dentro
+     * de la lista de usuarios
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
-        //usaremos placeholder por ahora
+        //Ciclo que for que compara los parametos ingresados por el usuario para ver si existe dentro del sistema.
         for (Usuario usuario : usuarios) {
             if (nameTextField.getText().equals(usuario.getUsername())) {
                 if (passwordTextField.getText().equals(usuario.getPassword())) {
@@ -100,8 +119,14 @@ public class FXMLLoginController implements Initializable {
 
     }
 
-    double x, y;
+    double x, y;//Coordenadas de la aplicacion en la pantalla.
 
+    
+    /**
+     * A continuacion se presentan los metodos para arrastrar, cerrar y minimizar la aplicacion
+     * de forma personalizada
+     * @param event 
+     */
     @FXML
     private void arrastar(MouseEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
