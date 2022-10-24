@@ -50,15 +50,20 @@ public class FXMLLoginController implements Initializable {
         Usuario usuario1 = new Usuario("Poio", "Poio", "password");
         Usuario usuario2 = new Usuario("Sergio", "Serjo", "password");
         Usuario usuario4 = new Usuario("Shipus", "ElChupalla", "password");
+        Usuario usuario5 = new Usuario("Shipus", "Batman", "password");
+        Usuario usuario6 = new Usuario("Shipus", "Roberto", "password");
+
         usuarios.add(usuario1);
         usuarios.add(usuario2);
         usuarios.add(usuario4);
+        usuarios.add(usuario5);
+        usuarios.add(usuario6);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         crearUsuarios();
-        pochita = new Producto("Peluche de Pochita",0);
+        pochita = new Producto("Peluche de Pochita", 0);
     }
 
     @FXML
